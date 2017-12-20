@@ -12,7 +12,7 @@ def go():
     get_historical_data(df['Coins'][0], mode = 'w', include_header=True)
     
     with Pool(processes=num_cores) as pool:
-        pool.map(get_historical_data, df['Coins'][1:])
+        pool.map(get_historical_data, df['Coins'][1:100])
 
 
 if __name__ == "__main__":

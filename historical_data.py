@@ -20,7 +20,7 @@ def get_historical_data(crypto, mode='a', include_header=False):
         rows = []
 
         for i in range(1, len(table_rows)):
-            row = [data.text for data in table_rows[i].find_all('td')]
+            row = [data.text.replace(',', '.') for data in table_rows[i].find_all('td')]
             row.insert(0, crypto)
             rows.append(row)
 
@@ -29,7 +29,7 @@ def get_historical_data(crypto, mode='a', include_header=False):
         if include_header:
             df.columns = columns    
         
-        with open('coin_data.csv', mode) as f:
+        with open('top100_coin_data.csv', mode) as f:
             df.to_csv(f, index=True, header=include_header)
     except:
         print('Currency ', crypto)
