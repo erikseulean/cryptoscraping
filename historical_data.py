@@ -1,11 +1,13 @@
 import requests
 import pandas as pd
+from datetime import datetime
 from bs4 import BeautifulSoup
 
 def get_historical_data(crypto, mode='a', include_header=False):
     try:
-        url = 'https://coinmarketcap.com/currencies/{crypto}/historical-data/?start=20000428&end=20171218'
-        url = url.format(crypto=crypto)
+
+        url = 'https://coinmarketcap.com/currencies/{crypto}/historical-data/?start=20000428&end={end}'
+        url = url.format(crypto=crypto, end=datetime.today().strftime('%Y%m%d'))
 
         page = requests.get(url)
         contents = page.content
@@ -30,6 +32,6 @@ def get_historical_data(crypto, mode='a', include_header=False):
             df.columns = columns    
         
         with open('top100_coin_data.csv', mode) as f:
-            df.to_csv(f, index=True, header=include_header)
+            df.to_csv(f, index=False, header=include_header)
     except:
         print('Currency ', crypto)

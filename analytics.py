@@ -9,7 +9,6 @@ def cleaned_dataset():
         header=0,
         low_memory=False, 
         encoding='utf-8-sig',
-        index_col=0,
         delimiter=','
     )
     top100['Date'] = pd.to_datetime(top100['Date'], errors='coerce')
@@ -43,6 +42,8 @@ def per_exchange_currencies(exchange_names):
 def filtered_data(top100, exchange_names):
     top100 = top100[top100['Coin'].isin(exchange_names)]
     top100 = top100[top100['Date'] == '2017-12-18']
+
+    print(top100)
 
 
 dataset = cleaned_dataset()

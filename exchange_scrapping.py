@@ -21,7 +21,7 @@ def get_exchanges(coin):
         unique_exchanges.add(table_rows[i].find_all('td')[1].find_all('a')[0].text)
     return unique_exchanges
 
-def store_exchanges():
+def scrap_exchanges():
     coins = pd.DataFrame.from_csv('coins.csv')
     
     data = defaultdict(lambda:[])
@@ -33,8 +33,6 @@ def store_exchanges():
 
     json.dump(data, open('dict.json', 'w'))   
     
-store_exchanges()
-
 
     
 

@@ -1,9 +1,8 @@
 from multiprocessing import Pool, cpu_count
-from joblib import Parallel, delayed
 import pandas as pd
 from historical_data import get_historical_data
 
-def go():
+def go_get_them():
 
     num_cores = cpu_count()
 
@@ -13,7 +12,3 @@ def go():
     
     with Pool(processes=num_cores) as pool:
         pool.map(get_historical_data, df['Coins'][1:100])
-
-
-if __name__ == "__main__":
-    go()
