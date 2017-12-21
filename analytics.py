@@ -54,4 +54,4 @@ dataset = cleaned_dataset()
 # current['diff'] = (current['Close'] - hist['Close'].values[0]) / hist['Close'].values[0]
 # print(current)
 
-filtered_data(dataset, per_exchange_currencies(['Poloniex', 'Bitfinex']))
+#filtered_data(dataset, per_exchange_currencies(['Poloniex', 'Bitfinex']))

@@ -18,3 +18,19 @@ TODO today
 - scrap data
 - store it
 - create accounts on crypto websites
+
+
+1. poloniex
+2. bitstamp
+3. binance
+4. bitfinance
+
+Portofolios:
+cardano - binance
+digibyte - poloniex
+stellar - poloniex
+eos - binance
+qtum - binance
+omisego - poloniex
+
+
