@@ -24,6 +24,10 @@ def top10_by_market_cap(top100):
     print(top10[['Coin', 'Market-Cap']][-10:])
     top10[['Coin', 'Market-Cap']][-10:].to_csv('bottom10_market_cap.csv')
 
+def top_by_market_cap(dataset, date='2017-12-18'):
+    dataset = dataset[top100['Date'] == date].sort_values('Market-Cap', ascending=False)
+    return dataset
+
 def get_historical_data(top100, ticker, start, end):
     return top100[
         (top100['Coin'] == ticker) & 

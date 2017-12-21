@@ -3,7 +3,6 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 def scrap_coins():
-    page = requests.get('https://coinmarketcap.com/historical/20171217')
 
     soup = BeautifulSoup(open("all_cryptos.html"), 'html.parser')
     table_rows = soup.find_all('tr')
@@ -18,3 +17,7 @@ def scrap_coins():
     print('loaded all coins into coins.csv')
 
 
+def scrap_at_date(path, mode='a', header = False):
+    
+    page = requests.get('https://coinmarketcap.com{path}')
+    contents = page.content

@@ -31,3 +31,4 @@ def plot_correlation(coin):
     plt.title(coin)
     plt.show()
     
+plot_correlation('request-network')
