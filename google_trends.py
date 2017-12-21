@@ -3,19 +3,22 @@ from pytrends.request import TrendReq
 import pandas as pd
 
 def get_trends(coin_term, mode='a', header=False):
-    pytrends = TrendReq(hl='en-US', tz=360)
-    pytrends.build_payload(coin_term, cat=0, timeframe='today 3-m', geo='', gprop='')
+    try:
+        pytrends = TrendReq(hl='en-US', tz=360)
+        pytrends.build_payload(coin_term, cat=0, timeframe='today 3-m', geo='', gprop='')
 
-    result = pytrends.interest_over_time()
-    result.insert(loc=0, column='Coin', value='-'.join(coin_term))
-    result.drop('isPartial', axis=1, inplace=True)
-    result.reset_index(level=0, inplace=True)
+        result = pytrends.interest_over_time()
+        result.insert(loc=0, column='Coin', value='-'.join(coin_term))
+        result.drop('isPartial', axis=1, inplace=True)
+        result.reset_index(level=0, inplace=True)
 
-    result = result.iloc[:,0:3]
-    result.columns = ['Date', 'Coin', 'Trend']
+        result = result.iloc[:,0:3]
+        result.columns = ['Date', 'Coin', 'Trend']
 
-    with open('coin_trends.csv', mode) as f:
-        result.to_csv(f, index=False, header=header)
+        with open('coin_trends.csv', mode) as f:
+            result.to_csv(f, index=False, header=header)
+    except:
+        print(coin_term)
 
 
 def get_all_trends():

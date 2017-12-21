@@ -6,7 +6,7 @@ def test_valid_inputs():
     assert(len(coins['Coins']) == 1368) #includes header
 
     all_data = pd.read_csv(
-        'top100_coin_data.csv',
+        'coin_data.csv',
         header=0,
         low_memory=False, 
         encoding='utf-8-sig',

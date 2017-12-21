@@ -5,7 +5,7 @@ from datetime import date
 
 def cleaned_dataset():
     top100 = pd.read_csv(
-        'top100_coin_data_cleaned.csv',
+        'coin_data_cleaned.csv',
         header=0,
         low_memory=False, 
         encoding='utf-8-sig',
