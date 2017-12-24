@@ -6,8 +6,7 @@ from parallel_scrap import go_get_them
 from cleanup import cleanup
 from google_trends import get_all_trends
 
-if __name__ == "__main__":
-    
+def run():
     runner = Runner()
     runner.add(load)
     runner.add(scrap_coins)
@@ -15,5 +14,4 @@ if __name__ == "__main__":
     runner.add(scrap_exchanges)
     runner.add(cleanup)
     runner.add(get_all_trends)
-
     runner()
