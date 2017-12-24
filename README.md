@@ -69,6 +69,7 @@ tester.run(verbose=False)
 The Process:
 
 I. Analyse the entire market to come up with a list of tickers
+```
   1. Search for seasonality (monthly and weekly and annually)
     - look at Christmas spike and January deflation
   2. Look at the correlation matrix
@@ -84,13 +85,16 @@ I. Analyse the entire market to come up with a list of tickers
   9. Look at new comers in top 100!
   10. See price increase of poloniex/bittrex/binance exchange coins from beginning of listing
   11. Pace of new account openings
-
+```
 II. Analyse a portfolio of coins coming up from 1.
+```
   1. Backtesting monthly, weekly, daily
   2. Look for correlation matrix and volatilty of the portfolio
   3. Backtest vs usd and vs btc
+```
 
 III. Individual coin analysis
+```
   1. look at full history of price (search for pumps and dumps)
     - vs USD and vs BTC
   2. look at recent history of price (search for pumps and dumps)
@@ -105,11 +109,16 @@ III. Individual coin analysis
   6. search for pumps as % of initial price so the pump is yet to come
   7. find the average life of an altcoin (drop below issue price = death)
   8. When it was adopted by exchange analysis
+```
 
 IV. Investing strategy
+```
   1. Stop loss order
   2. Cash out
   3.
+```
 
 V. Strategy ideas:
+```
   1. shower thoughts: buy every <1000sat coin on bittrex (there are around 8) and put a sell order for 2x. come back after 8 days. you will have 2x in your wallet most probably.😂😂
+```
