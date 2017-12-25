@@ -21,3 +21,4 @@ def scrap_at_date(path, mode='a', header = False):
     
     page = requests.get('https://coinmarketcap.com{path}')
     contents = page.content
+    

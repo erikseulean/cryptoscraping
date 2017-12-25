@@ -4,18 +4,36 @@ import json
 from datetime import date
 
 def cleaned_dataset():
-    top100 = pd.read_csv(
+    data = pd.read_csv(
         'coin_data_cleaned.csv',
         header=0,
-        low_memory=False, 
+        low_memory=False,
         encoding='utf-8-sig',
         delimiter=','
     )
-    top100['Date'] = pd.to_datetime(top100['Date'], errors='coerce')
-    top100['Market-Cap'] = pd.to_numeric(top100['Market-Cap'], errors='coerce')
-    top100['Volume'] = pd.to_numeric(top100['Volume'], errors='coerce')
+    data['Date'] = pd.to_datetime(data['Date'], errors='coerce')
+    data['Market-Cap'] = pd.to_numeric(data['Market-Cap'], errors='coerce')
+    data['Volume'] = pd.to_numeric(data['Volume'], errors='coerce')
+    data = data.drop_duplicates()
+    return data
 
-    return top100
+
+def getCoin(dataset, coin):
+    return dataset[(dataset['Coin'] == coin)]
+
+def getDates(dataset, startDate, endDate):
+    return dataset[((dataset['Date'] >= startDate) & (dataset['Date'] <= endDate))]
+
+def getDate(dataset, date):
+    return dataset[(dataset['Date'] == date)]
+
+def getSorted(data, column, asc = False):
+    return data.sort_values(by=column, ascending=asc).dropna()
+
+def getClose(data, coin, date):
+    dataDate = getDate(data, date)
+    dataCoin = getCoin(dataDate, coin)
+    return float(dataCoin["Close"].values[0])
 
 def top10_by_market_cap(top100):
     top10 = top100[top100['Date'] == '2017-12-18'].sort_values('Market-Cap', ascending=False)
@@ -30,7 +48,7 @@ def top_by_market_cap(dataset, date='2017-12-18'):
 
 def get_historical_data(top100, ticker, start, end):
     return top100[
-        (top100['Coin'] == ticker) & 
+        (top100['Coin'] == ticker) &
         (top100['Date'] >= start) &
         (top100['Date'] <= end)][['Date', 'Volume', 'Close', 'Market-Cap']]
 
