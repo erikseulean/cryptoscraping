@@ -133,4 +133,6 @@ IV. Investing strategy
 V. Strategy ideas:
 ```
   1. shower thoughts: buy every <1000sat coin on bittrex (there are around 8) and put a sell order for 2x. come back after 8 days. you will have 2x in your wallet most probably.😂😂
+  2. buy btc and aftD it grow 10% buy altcoins and after 
+  they rise 10% buy btc. pairs trading basically 
 ```
