@@ -50,12 +50,34 @@ def filtered_data(top100, exchange_names):
     print(top100)
 
 
+def under_20c_cost_analysis(dataset):
+    current_values = dataset[dataset['Date'] == '2017-12-22']
+    under_20c = current_values[current_values['Close'] < 0.2]
+    
+    print('Coins')
+    print(under_20c[['Coin', 'Close']])
+    print('Total: ' + str(under_20c['Close'].round(4).sum() * 100))
+    
+
+def under_200mil_market_cap(dataset):
+    current_values = dataset[dataset['Date'] == '2017-12-22']
+    under_200_market_cap = current_values[current_values['Market-Cap'] < 200000000]
+
+    print('Under 200 mil market-cap')
+    print(under_200_market_cap[['Coin', 'Market-Cap', 'Close']])
+
+
 dataset = cleaned_dataset()
 #top10_by_market_cap(dataset)
 # current = get_historical_data(dataset, 'litecoin', '2017-12-16', '2017-12-18')
 
-# hist = get_historical_data(dataset, 'litecoin', '2017-12-01', '2017-12-01')
+hist = get_historical_data(dataset, 'bitcoin', '2017-10-17', '2017-10-18')
+print(hist)
 # current['diff'] = (current['Close'] - hist['Close'].values[0]) / hist['Close'].values[0]
 # print(current)
 
 #filtered_data(dataset, per_exchange_currencies(['Poloniex', 'Bitfinex']))
+
+# under_20c_cost_analysis(dataset)
+
+# under_200mil_market_cap(dataset)

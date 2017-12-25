@@ -26,6 +26,7 @@ TODO today
 4. bitfinance
 
 Portofolios:
+1.
 cardano - binance
 digibyte - poloniex
 stellar - poloniex
@@ -34,3 +35,13 @@ qtum - binance
 omisego - poloniex
 
 
+2.
+XRP - poloniex - bitstamp
+GNOSIS - poloniex
+ZCASH - poloniex
+BCASH - poloniex - bitstamp
+DASH - poloniex
+MONERO - poloniex
+ETH - poloniex - bitstamp
+iota - poloniex
+request-network - poloniex
