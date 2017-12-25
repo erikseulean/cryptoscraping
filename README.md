@@ -1,3 +1,13 @@
+### Getting data
+We're scrapping [coinmarketcap](coinmarketcap.com) to get the list of coins and we get all their historical data. 
+In order to generate all the data run: ` python refresh.py `
+This will create a couple of files:
+- `all_cryptos.html` - the main page that we scrap. Because this has over 1600 coins, we save it locally so we don't fetch it everytime we run the script
+- `coins.csv` - list of all coins available today on the site
+- `coin_data.csv` - all historical data for the coins fetched in `coins.csv`
+- `coin_data_cleaned.csv` - cleanup of the `coind_data.csv` file, in terms of empty values, dates formating or types
+- `coin_trends.csv` - google trends on the given list of coins. We check the correlation between the trending values for that term and the coin price
+
 ## How does it work
 1. You come up with a Strategy  
   - The strategy receives a date
