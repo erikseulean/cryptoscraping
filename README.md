@@ -136,3 +136,6 @@ V. Strategy ideas:
   2. buy btc and aftD it grow 10% buy altcoins and after 
   they rise 10% buy btc. pairs trading basically 
 ```
+
+TODO:
+    - Intraday data - see here https://github.com/agalea91/cryptocompare-api/blob/master/CryptoCompare.API.2017.08.ipynb
