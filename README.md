@@ -1,5 +1,53 @@
-### Getting data
-We're scrapping [coinmarketcap](coinmarketcap.com) to get the list of coins and we get all their historical data. 
+## TODO:
+The end goal is to have the following structure working well:
+  - data (contains either a database or a filesystem that gets automatically updated)
+  - libs (contains all the price, market cap, model, backtesting, portfolio) core functionality
+  - analytics (building tools out of libs)
+  - notebooks (like a dashboard where we can see different things)
+
+Data seems the most urgent one since everything is built on top of that. We need to automate it.
+
+### Data that we need:
+- historical and current prices per coins - daily, hourly, minute
+- historical and current market cap for all coins - not only 100 and not only a few days. all history.
+
+### Libs that we need:
+```
+import libs.coins as coins
+import libs.pairs as pairs
+import libs.price as price
+import libs.marketcap as marketcap
+
+import libs.book as book
+import libs.portfolio as portfolio
+import libs.models as models
+import libs.backtesting as backtesting
+```
+
+### Analytics that we need:
+```
+import analytics.dashboard as dashboard
+import analytics.macro as macro
+import analytics.coininfo as coininfo
+import analytics.coinperformance as coinperformance
+import analytics.bookperformance as bookperformance
+
+import analytics.signals
+import analytics.alerts
+```
+
+### Notebooks that we need:
+```
+Portfolio performance analysis
+Coin performance analysis
+Coin Pair performance analysis
+Macro coin market overview
+Signals & Alerts
+Strategy testing and analysis
+```
+
+## Getting data
+We're scrapping [coinmarketcap](coinmarketcap.com) to get the list of coins and we get all their historical data.
 In order to generate all the data run: ` python refresh.py `
 This will create a couple of files:
 - `all_cryptos.html` - the main page that we scrap. Because this has over 1600 coins, we save it locally so we don't fetch it everytime we run the script
@@ -66,7 +114,7 @@ tester.run(verbose=False)
       -  Input:
             - Date
             - TradingTickers, type list of strings
-      
+
       -  Output:
             - Buy Tickers, type list of strings
             - Sell Tickers, type list of strings
@@ -133,9 +181,11 @@ IV. Investing strategy
 V. Strategy ideas:
 ```
   1. shower thoughts: buy every <1000sat coin on bittrex (there are around 8) and put a sell order for 2x. come back after 8 days. you will have 2x in your wallet most probably.😂😂
-  2. buy btc and aftD it grow 10% buy altcoins and after 
-  they rise 10% buy btc. pairs trading basically 
+  2. buy btc and aftD it grow 10% buy altcoins and after
+  they rise 10% buy btc. pairs trading basically
 ```
 
 TODO:
     - Intraday data - see here https://github.com/agalea91/cryptocompare-api/blob/master/CryptoCompare.API.2017.08.ipynb
+    - Attribution of portfolio losses and gains based on the coin - stacked bars
+    - strategy for swing trading (buy low sell high vs btc and eth)
