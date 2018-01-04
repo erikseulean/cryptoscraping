@@ -1,22 +1,27 @@
 from datetime import datetime as Date
 
-def current(coin, measurement_coin, exchange=''):
-    return True
+class MarketCap(Object):
 
-def historical(coin, measurement_coin, start_date, end_date):
-    return True
+    def __init__(self, dataset):
+        self.dataset = dataset;
 
-def top(number_of_coins, as_of_date = None):
-    return True
+    def current(self, coin, measurement_coin, exchange=''):
+        pass
 
-def range(lower_rank, upper_rank, as_of_date = None):
-    return True
+    def historical(self, coin, measurement, coin, exchange=''):
+        pass
 
-def smaller(upper_limit, as_of_date = None):
-    return True
+    def top(number_of_coins, as_of_date=None):
+        pass
 
-def bigger(lower_limit, as_of_date = None):
-    return True
+    def range(lower_bound, upper_bound, as_of_date = None):
+        pass
 
-def between(lower_limit, upper_limit, as_of_date = None):
-    return True
+    def smaller(upper_bound, as_of_date = None):
+        pass
+
+    def bigger(lower_bound, as_of_date = None):
+        pass
+
+    def between(lower_bound, upper_bound, as_of_date = None):
+        pass
