@@ -20,7 +20,14 @@ class MarketCap:
         return float(current[coin]['market_cap_usd']) / measurerment_coin_price
 
     def historical(self, coin, measurement, date):
-        data = dataset[(dataset['Date'] == date)]
+        data = self.dataset[(self.dataset['Date'] == date)]
+
+        coin_market_cap = data[(data['Coin'] == coin)]['Market-Cap'].values[0]
+        if measurement == 'usd':
+            return coin_market_cap
+        
+        measurement_price = data[(data['Coin'] == measurement)]['Close'].values[0]
+        return coin_market_cap / measurement_price
 
     def top(number_of_coins, as_of_date=None):
         pass
