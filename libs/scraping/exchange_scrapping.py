@@ -22,7 +22,7 @@ def get_exchanges(coin):
     return unique_exchanges
 
 def scrap_exchanges():
-    coins = pd.DataFrame.from_csv('coins.csv')
+    coins = pd.DataFrame.from_csv('data/coins.csv')
 
     data = defaultdict(lambda:[])
 
@@ -31,4 +31,4 @@ def scrap_exchanges():
         for exch in exchange:
             data[exch].append(coin.split(":")[0])
 
-    json.dump(data, open('dict.json', 'w'))
+    json.dump(data, open('data/dict.json', 'w'))

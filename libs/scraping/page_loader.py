@@ -6,7 +6,7 @@ def load():
     contents = page.content
 
 
-    with open("all_cryptos.html", "wb") as text_file:
+    with open("data/all_cryptos.html", "wb") as text_file:
         text_file.write(contents)
 
     print('saved html source to all_cryptos.html')

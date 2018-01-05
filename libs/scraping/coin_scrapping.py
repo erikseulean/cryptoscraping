@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 def scrap_coins():
 
-    soup = BeautifulSoup(open("all_cryptos.html"), 'html.parser')
+    soup = BeautifulSoup(open("data/all_cryptos.html"), 'html.parser')
     table_rows = soup.find_all('tr')
 
     coins = []
@@ -14,7 +14,7 @@ def scrap_coins():
                       table_rows[i].find_all('a')[0].text)
 
     df = pd.DataFrame(coins, columns=['Coins'])
-    df.to_csv('coins.csv')
+    df.to_csv('data/coins.csv')
     print('loaded all coins into coins.csv')
 
 

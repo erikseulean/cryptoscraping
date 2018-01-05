@@ -6,7 +6,7 @@ def go_get_them():
 
     num_cores = cpu_count()
 
-    df = pd.DataFrame.from_csv('coins.csv')
+    df = pd.DataFrame.from_csv('data/coins.csv')
 
     get_historical_data(df['Coins'][0], mode = 'w', include_header=True)
 

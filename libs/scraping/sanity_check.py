@@ -1,7 +1,7 @@
 import pandas as pd
 
 def test_valid_inputs():
-    coins = pd.DataFrame.from_csv('coins.csv')
+    coins = pd.DataFrame.from_csv('data/coins.csv')
     
     assert(len(coins['Coins']) == 1368) #includes header
 
