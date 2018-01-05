@@ -20,8 +20,6 @@ class MarketCap:
     def historical(self, coin, measurement, date):
         data = dataset[(dataset['Date'] == date)]
 
-
-
     def top(number_of_coins, as_of_date=None):
         pass
 
@@ -36,3 +34,4 @@ class MarketCap:
 
     def between(lower_bound, upper_bound, as_of_date = None):
         pass
+

@@ -15,14 +15,14 @@ def get_trends(coin_term, mode='a', header=False):
         result = result.iloc[:,0:3]
         result.columns = ['Date', 'Coin', 'Trend']
 
-        with open('data/coin_trends.csv', mode) as f:
+        with open('crypto/data/coin_trends.csv', mode) as f:
             result.to_csv(f, index=False, header=header)
     except:
         print(coin_term)
 
 
 def get_all_trends():
-    df = pd.DataFrame.from_csv('data/coins.csv')
+    df = pd.DataFrame.from_csv('crypto/data/coins.csv')
 
     coins = df['Coins'][0:100].tolist()
     coins = [str(elem).split('-') for elem in coins]

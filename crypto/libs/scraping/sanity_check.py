@@ -1,12 +1,12 @@
 import pandas as pd
 
 def test_valid_inputs():
-    coins = pd.DataFrame.from_csv('data/coins.csv')
+    coins = pd.DataFrame.from_csv('crypto/data/coins.csv')
     
     assert(len(coins['Coins']) == 1368) #includes header
 
     all_data = pd.read_csv(
-        'coin_data.csv',
+        'crypto/data/coin_data.csv',
         header=0,
         low_memory=False, 
         encoding='utf-8-sig',

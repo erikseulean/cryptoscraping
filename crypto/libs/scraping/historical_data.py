@@ -38,7 +38,7 @@ def get_historical_data(crypto, mode='a', include_header=False):
         if include_header:
             df.columns = columns
 
-        with open('data/coin_data.csv', mode) as f:
+        with open('crypto/data/coin_data.csv', mode) as f:
             df.to_csv(f, index=False, header=include_header)
     except:
         print('Currency ', crypto)
