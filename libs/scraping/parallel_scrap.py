@@ -11,4 +11,4 @@ def go_get_them():
     get_historical_data(df['Coins'][0], mode = 'w', include_header=True)
 
     with Pool(processes=num_cores) as pool:
-        pool.map(get_historical_data, df['Coins'])
+        pool.map(get_historical_data, df['Coins'][1:])
