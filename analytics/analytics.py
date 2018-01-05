@@ -14,6 +14,7 @@ def cleaned_dataset():
     data['Date'] = pd.to_datetime(data['Date'], errors='coerce')
     data['Market-Cap'] = pd.to_numeric(data['Market-Cap'], errors='coerce')
     data['Volume'] = pd.to_numeric(data['Volume'], errors='coerce')
+    data['Price'] = pd.to_numeric(data['Price'], errors='coerce')
     data = data.drop_duplicates()
     return data
 
