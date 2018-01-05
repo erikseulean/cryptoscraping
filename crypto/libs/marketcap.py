@@ -1,10 +1,12 @@
 from datetime import datetime
 from coinmarketcap.recent_data import get_current_values
+from crypto.data.loader import cleaned_dataset
 
 class MarketCap:
 
+    #TODO to be refactored to use a proper datastore
     def __load__(self):
-        return None
+        return cleaned_dataset()
 
     def __init__(self, dataset = None):
         self.dataset = dataset if dataset else self.__load__()
@@ -34,4 +36,3 @@ class MarketCap:
 
     def between(lower_bound, upper_bound, as_of_date = None):
         pass
-
