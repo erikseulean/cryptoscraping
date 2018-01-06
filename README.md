@@ -48,7 +48,11 @@ Strategy testing and analysis
 
 ## Getting data
 We're scrapping [coinmarketcap](coinmarketcap.com) to get the list of coins and we get all their historical data.
-In order to generate all the data run: ` python refresh.py `
+In order to generate all the data run: 
+```py
+from crypto.libs.scraping.refresh import run
+run()
+```
 This will create a couple of files:
 - `all_cryptos.html` - the main page that we scrap. Because this has over 1600 coins, we save it locally so we don't fetch it everytime we run the script
 - `coins.csv` - list of all coins available today on the site
