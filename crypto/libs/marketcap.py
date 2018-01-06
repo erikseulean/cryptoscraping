@@ -16,7 +16,7 @@ class MarketCap:
         current = get_current_values()
         if measurement_coin == 'usd':
             return current[coin]['market_cap_usd']
-        
+
         measurerment_coin_price = float(current[measurement_coin]['price_usd'])
         return float(current[coin]['market_cap_usd']) / measurerment_coin_price
 
@@ -26,7 +26,7 @@ class MarketCap:
         coin_market_cap = data[(data['Coin'] == coin)]['Market-Cap'].values[0]
         if measurement == 'usd':
             return coin_market_cap
-        
+
         measurement_price = data[(data['Coin'] == measurement)]['Close'].values[0]
         return coin_market_cap / measurement_price
 
@@ -36,7 +36,7 @@ class MarketCap:
         for coin, data in current.items():
             if not data['market_cap_usd']:
                 continue
-            
+
             marketcap = float(data['market_cap_usd'])
 
             if len(top) < number_of_coins:
@@ -44,13 +44,13 @@ class MarketCap:
             else:
                 if top[0][0] < marketcap:
                     heapreplace(top, (marketcap, coin))
-        
+
         return nlargest(number_of_coins, top)
 
     def top(self, number_of_coins, as_of_date=None):
         if as_of_date is None:
             return self._top_today_(number_of_coins)
-        
+
         def transform(dataset):
             result = []
             for index, row in dataset.iterrows():
@@ -64,7 +64,7 @@ class MarketCap:
     def _range_today_(self, lower_bound, upper_bound):
         current = get_current_values()
         return [
-            (float(data['market_cap_usd']), coin) for coin, data in current.items() 
+            (float(data['market_cap_usd']), coin) for coin, data in current.items()
             if data['market_cap_usd'] and (
                 float(data['market_cap_usd']) >= lower_bound and float(data['market_cap_usd']) <= upper_bound
             )
@@ -74,7 +74,7 @@ class MarketCap:
     def range(self, lower_bound, upper_bound, as_of_date = None):
         if as_of_date is None:
             return self._range_today_(lower_bound, upper_bound)
-        
+
     def smaller(self, upper_bound, as_of_date = None):
         pass
 

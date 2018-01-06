@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+cryptocompy-env/
+dist/
+*.egg-info/
+setup.cfg
+
+# Jupyter Notebook
+.ipynb_checkpoints
