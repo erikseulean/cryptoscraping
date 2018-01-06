@@ -47,7 +47,6 @@ class MarketCap:
         
         return nlargest(number_of_coins, top)
 
-
     def top(self, number_of_coins, as_of_date=None):
         if as_of_date is None:
             return self._top_today_(number_of_coins)
@@ -62,9 +61,20 @@ class MarketCap:
         data = data.sort_values('Market-Cap', ascending=False)
         return transform(data[0:number_of_coins])
 
-    def range(self, lower_bound, upper_bound, as_of_date = None):
-        pass
+    def _range_today_(self, lower_bound, upper_bound):
+        current = get_current_values()
+        return [
+            (float(data['market_cap_usd']), coin) for coin, data in current.items() 
+            if data['market_cap_usd'] and (
+                float(data['market_cap_usd']) >= lower_bound and float(data['market_cap_usd']) <= upper_bound
+            )
+        ]
 
+
+    def range(self, lower_bound, upper_bound, as_of_date = None):
+        if as_of_date is None:
+            return self._range_today_(lower_bound, upper_bound)
+        
     def smaller(self, upper_bound, as_of_date = None):
         pass
 
