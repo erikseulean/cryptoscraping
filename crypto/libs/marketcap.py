@@ -1,4 +1,5 @@
 from datetime import datetime
+from heapq import heappush, heappop, heapreplace, nlargest
 from coinmarketcap.recent_data import get_current_values
 from crypto.data.loader import cleaned_dataset
 
@@ -29,17 +30,46 @@ class MarketCap:
         measurement_price = data[(data['Coin'] == measurement)]['Close'].values[0]
         return coin_market_cap / measurement_price
 
-    def top(number_of_coins, as_of_date=None):
+    def _top_today_(self, number_of_coins):
+        current = get_current_values()
+        top = []
+        for coin, data in current.items():
+            if not data['market_cap_usd']:
+                continue
+            
+            marketcap = float(data['market_cap_usd'])
+
+            if len(top) < number_of_coins:
+                heappush(top, (marketcap, coin))
+            else:
+                if top[0][0] < marketcap:
+                    heapreplace(top, (marketcap, coin))
+        
+        return nlargest(number_of_coins, top)
+
+
+    def top(self, number_of_coins, as_of_date=None):
+        if as_of_date is None:
+            return self._top_today_(number_of_coins)
+        
+        def transform(dataset):
+            result = []
+            for index, row in dataset.iterrows():
+                result.append((row['Market-Cap'], row['Coin']))
+            return result
+
+        data = self.dataset[(self.dataset['Date'] == as_of_date)]
+        data = data.sort_values('Market-Cap', ascending=False)
+        return transform(data[0:number_of_coins])
+
+    def range(self, lower_bound, upper_bound, as_of_date = None):
         pass
 
-    def range(lower_bound, upper_bound, as_of_date = None):
+    def smaller(self, upper_bound, as_of_date = None):
         pass
 
-    def smaller(upper_bound, as_of_date = None):
+    def bigger(self, lower_bound, as_of_date = None):
         pass
 
-    def bigger(lower_bound, as_of_date = None):
-        pass
-
-    def between(lower_bound, upper_bound, as_of_date = None):
+    def between(self, lower_bound, upper_bound, as_of_date = None):
         pass
