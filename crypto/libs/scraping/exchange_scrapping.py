@@ -27,8 +27,10 @@ def scrap_exchanges():
     data = defaultdict(lambda:[])
 
     for coin in coins['Coins']:
-        exchange = get_exchanges(coin.split(":")[0])
-        for exch in exchange:
-            data[exch].append(coin.split(":")[0])
-
+        try:
+            exchange = get_exchanges(coin.split(":")[0])
+            for exch in exchange:
+                data[exch].append(coin.split(":")[0])
+        except:
+            print(coin)
     json.dump(data, open('crypto/data/dict.json', 'w'))
