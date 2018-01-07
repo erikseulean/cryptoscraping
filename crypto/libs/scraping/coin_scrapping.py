@@ -9,7 +9,7 @@ def scrap_coins():
 
     coins = []
 
-    for i in range(1, 10):
+    for i in range(1, len(table_rows)):
         coins.append( table_rows[i].find_all('a')[0]['href'].split('/')[2] + ":" + \
                       table_rows[i].find_all('a')[0].text)
 

@@ -47,13 +47,7 @@ def get_historical_data(top100, ticker, start, end):
         (top100['Date'] <= end)][['Date', 'Volume', 'Close', 'Market-Cap']]
 
 
-def per_exchange_currencies(exchange_names):
-    exchanges = json.load(open('dict.json'))
-    all_currencies = set()
-    for name in exchange_names:
-        all_currencies = all_currencies | set(exchanges[name])
 
-    return all_currencies
 
 
 # get all from top 100 that are traded at the exchanges passed in as parameter
@@ -67,11 +61,11 @@ def filtered_data(top100, exchange_names):
 def under_20c_cost_analysis(dataset):
     current_values = dataset[dataset['Date'] == '2017-12-22']
     under_20c = current_values[current_values['Close'] < 0.2]
-    
+
     print('Coins')
     print(under_20c[['Coin', 'Close']])
     print('Total: ' + str(under_20c['Close'].round(4).sum() * 100))
-    
+
 
 def under_200mil_market_cap(dataset):
     current_values = dataset[dataset['Date'] == '2017-12-22']

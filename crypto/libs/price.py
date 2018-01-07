@@ -125,3 +125,13 @@ class Price:
 
         data = data[traded_coin]
         return data
+
+    def change(self, base_coin, traded_coin,
+               start_date, end_date, exch='Bitstamp'):
+        final_price = self.historical(base_coin, traded_coin, end_date, exchange = exch)
+        final_price = final_price["close"].values[0]
+
+        initial_price = self.historical(base_coin, traded_coin, start_date, exchange = exch)
+        initial_price = initial_price["close"].values[0]
+
+        return round((final_price / initial_price - 1) * 100, 2)
