@@ -217,8 +217,11 @@ class Price:
             if bar_type == "d":
                 bar_type = "h"
                 bar_size = 24 * bar_size
-            now = Date.now()
-            data = self.historical(base_coin, traded_coin, now, bar_size = bar_size,
+
+            if end_date is None:
+                end_date = Date.now()
+
+            data = self.historical(base_coin, traded_coin, end_date, bar_size = bar_size,
                                    bar_type = bar_type, num_points = 2, fields=["close", "open"])
 
             o = data.tail(1)["open"].values[0]
