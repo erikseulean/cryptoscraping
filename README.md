@@ -81,9 +81,6 @@ import portfolio
 import backtester
 import models
 
-# please make sure you only run this once!
-# import refresh
-# refresh.run()
 data = analytics.cleaned_dataset()
 
 model = models.StrategyBottomTenofTopOneHundredMarketCapUnderTwentyCents(data)
