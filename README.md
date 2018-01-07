@@ -177,6 +177,7 @@ IV. Investing strategy
 ```
   1. Stop loss order
   2. Cash out
+  3. Hold in cold storage
 ```
 
 V. Strategy ideas:
@@ -190,3 +191,32 @@ TODO:
     - Intraday data - see here https://github.com/agalea91/cryptocompare-api/blob/master/CryptoCompare.API.2017.08.ipynb
     - Attribution of portfolio losses and gains based on the coin - stacked bars
     - strategy for swing trading (buy low sell high vs btc and eth)
+    - search how long it takes to double, triple, 10x 
+    - search for coins that already had the max
+    - search for coins with k means clustering based on price, supply
+    - group them by vol after 1m, vol after 2m, spike in 1y spike in 1m 
+    - distribution of when coins reach their max, by how long it takes
+    - distribution of coin returns
+    - distribution of coins based on how high they got in the top market cap and their returns
+    - bucket coins by market cap and by since they exist
+    - compare returns based on the exchange
+    - check all this growth: vs btc and vs dollar, separate
+    - max growth in a day
+    - how long does it take to reach all time high?
+    - all time growth
+    - z score (today’s change, vs average)
+    - z score historical 
+    - what happens to coins before they die out?
+    - Security? Cold storage
+
+
+### Exchanges:
+    - [ ] Poloniex
+    - [ ] Bitstamp
+    - [ ] Binance
+    - [ ] Cryptopia
+    - [ ] Coinexchange
+    - [ ] Etherdelta
+    - [ ] Bitfinex
+    - [ ] Bittrex
+    - [ ] Yobit

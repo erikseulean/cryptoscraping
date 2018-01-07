@@ -26,7 +26,7 @@ def scrap_exchanges():
 
     data = defaultdict(lambda:[])
 
-    for coin in coins['Coins'][0:100]:
+    for coin in coins['Coins']:
         exchange = get_exchanges(coin.split(":")[0])
         for exch in exchange:
             data[exch].append(coin.split(":")[0])

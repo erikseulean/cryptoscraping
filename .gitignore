@@ -2,7 +2,6 @@
 *.vscode*
 *__pycache__*
 *.cache*
-*.ipynb*
 *.csv
 *.json
 *.html
