@@ -35,11 +35,9 @@ class Price:
 
     def _historical_invert_dates(self, start_datetime, end_datetime):
         if start_datetime is not None and end_datetime is not None:
-            swap_aux = end_datetime
-            end_datetime = start_datetime
-            start_datetime = swap_aux
-
-        return start_datetime, end_datetime
+            return end_datetime, start_datetime
+        else:
+            return start_datetime, end_datetime
 
     def _historical_only_one_date(self, start_datetime, end_datetime, num_points):
         if end_datetime is not None and \
@@ -65,7 +63,7 @@ class Price:
 
     def historical( self, base_coin, traded_coin, end_datetime = None, start_datetime = None,
                     bar_type = "d", bar_size = 1, num_points = None, fields = ["close"],
-                    sort = None, exchange = ''):
+                    sort = None, exchange = None):
         """
         Historical data returned in bar format.
         example:
@@ -78,7 +76,7 @@ class Price:
         """
 
         # Setting up url for frequency
-        url_request_period, bar_type = self._historical_add_url_frequency(
+        url_request_period, bar_size = self._historical_add_url_frequency(
                                             bar_type, bar_size)
 
         url = 'https://min-api.cryptocompare.com/data/{}?fsym={}&tsym={}&aggregate={}'\
@@ -101,26 +99,35 @@ class Price:
                    url, start_datetime, end_datetime, num_points)
 
         # Set exchange
-        if exchange:
+        if exchange is not None:
             url += '&e={}'.format(exchange)
 
 
         ### If we want a specific exchange, we get from cryptocompare
         ### Otherwise we get from the scraped data
-        if exchange == '' and \
+        if exchange is None and \
            (bar_type == 'd' or bar_type == 'w' or bar_type=='M'):
            return self._get_scraped_historical_data(base_coin,
                                                     traded_coin,
                                                     start_datetime,
                                                     end_datetime,
                                                     num_points)
-
+        if exchange is not None and \
+            (bar_type == 'd' or bar_type == 'w' or bar_type=='M') and \
+            num_points == 1:
+            return self._get_historical_date_point_of_exchange(base_coin,
+                                                               traded_coin,
+                                                               end_datetime,
+                                                               exchange)
         page = requests.get(url)
         data = page.json()['Data']
         df = pd.DataFrame(data)
         #print (start_datetime, end_datetime, url)
         try:
-            df.index = [Date.fromtimestamp(d) for d in df.time]
+            if bar_type == 'd' or bar_type == 'w' or bar_type=='M':
+                df.index = [Date.fromtimestamp(d).date() for d in df.time]
+            else:
+                df.index = [Date.fromtimestamp(d) for d in df.time]
             df = df[fields]
             if num_points == 1:
                 return df.head(1)
@@ -128,21 +135,61 @@ class Price:
             print ("Error on calling {}, got error {}".format(url, page.json()))
         return df
 
-    def _get_scraped_historical_data(base_coin,
+    def _get_scraped_historical_data(self,
+                                     base_coin,
                                      traded_coin,
                                      start_datetime,
                                      end_datetime,
                                      num_points):
-
         if start_datetime is None and end_datetime is not None:
            start_datetime = end_datetime
 
-        working_data = self.dataset[self.dataset["Symbol"] == base_coin]
-        working_data = working_data[(working_data["Date"] >= start_datetime) &
-                                    (working_data["Date"] <= end_datetime)]
-        working_data = working_data[["Close"]]
+        base_working_data = self.dataset[self.dataset["Symbol"] == base_coin]
+        base_working_data = base_working_data[(base_working_data["Date"] >= start_datetime) &
+                                    (base_working_data["Date"] <= end_datetime)]
 
-        return working_data
+        traded_working_data = self.dataset[self.dataset["Symbol"] == traded_coin]
+        traded_working_data = traded_working_data[(traded_working_data["Date"] >= start_datetime) &
+                                    (traded_working_data["Date"] <= end_datetime)]
+
+        if (start_datetime == end_datetime):
+            base_working_data = base_working_data[["Close"]]
+            if traded_coin == "USD":
+                return base_working_data["Close"].values[0]
+            else:
+                traded_to_usd = traded_working_data["Close"].values[0]
+                return base_working_data["Close"].values[0] / traded_to_usd
+        else:
+            if num_points is not None:
+                base_working_data = base_working_data.head(num_points)
+
+            base_working_data.index = base_working_data["Date"].values
+            base_working_data = base_working_data[["Close"]]
+            base_working_data.columns = [["close"]]
+            if traded_coin == "USD":
+                base_working_data = base_working_data.sort_index(ascending=True)
+                return base_working_data
+            else:
+                traded_working_data.index = traded_working_data["Date"].values
+                traded_working_data = traded_working_data[["Close"]]
+                traded_working_data.columns = [["close"]]
+                base_working_data["close"] = base_working_data["close"] / traded_working_data["close"]
+                base_working_data = base_working_data.sort_index(ascending=True)
+                return base_working_data
+
+    def _get_historical_date_point_of_exchange(self,
+                                               base_coin,
+                                               traded_coin,
+                                               end_datetime,
+                                               exchange):
+        end_date_timestamp = (end_datetime - Date(1970, 1, 1)).total_seconds()
+        url = 'https://min-api.cryptocompare.com/data/pricehistorical?fsym={}&tsyms={}&ts={}'\
+                .format(base_coin.upper(), ','.join([traded_coin]).upper(), end_date_timestamp)
+
+        page = requests.get(url)
+        data = page.json()[base_coin][traded_coin]
+        return data
+
 
     def current(self, base_coin, traded_coin = "USD", exchange='Bitstamp'):
         url = 'https://min-api.cryptocompare.com/data/price?fsym={}&tsyms={}'\
@@ -160,11 +207,22 @@ class Price:
         return data
 
     def change(self, base_coin, traded_coin,
-               start_date, end_date, exch='Bitstamp'):
-        final_price = self.historical(base_coin, traded_coin, end_date, exchange = exch)
-        final_price = final_price["close"].values[0]
+               start_date = None, end_date = None,
+               bar_size = None, bar_type = None, exch=None):
+        if start_date is not None and end_date is not None:
+            final_price = self.historical(base_coin, traded_coin, end_date, exchange = exch)
+            initial_price = self.historical(base_coin, traded_coin, start_date, exchange = exch)
+        else:
+            # latest 1 bar of this size and diff close - open
+            if bar_type == "d":
+                bar_type = "h"
+                bar_size = 24 * bar_size
+            now = Date.now()
+            data = self.historical(base_coin, traded_coin, now, bar_size = bar_size,
+                                   bar_type = bar_type, num_points = 2, fields=["close", "open"])
 
-        initial_price = self.historical(base_coin, traded_coin, start_date, exchange = exch)
-        initial_price = initial_price["close"].values[0]
+            o = data.tail(1)["open"].values[0]
+            c = data.tail(1)["close"].values[0]
+            return (c/o-1) * 100
 
         return round((final_price / initial_price - 1) * 100, 2)

@@ -25,15 +25,14 @@ class Coins:
 
         # rename coins to symbols
 
-    def coin_data(self, coin, field):
-        name = field["field"]
-        if name == "EXCHANGES":
+    def coin_data(self, coin, field, params = None):
+        if field == "EXCHANGES":
             return self._get_exchanges_coin(coin)
 
-        if name == "AGE":
+        if field == "AGE":
             return self._get_age_coin(coin)
 
-        if name == "ICO":
+        if field == "ICO":
             return self._get_ico_date(coin)
 
     def price(self, greather_or_equal_than, smaller_or_equal_than, as_of_date = None):
