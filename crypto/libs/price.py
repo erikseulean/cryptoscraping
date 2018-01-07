@@ -1,11 +1,17 @@
 import requests
 import datetime
 import pandas as pd
+from crypto.data.loader import cleaned_dataset
 from datetime import datetime as Date
 
 class Price:
-    def __init__(self):
-        pass
+
+    #TODO to be refactored to use a proper datastore
+    def __load__(self):
+        return cleaned_dataset()
+
+    def __init__(self, dataset = None):
+        self.dataset = dataset if dataset else self.__load__()
 
     def _historical_add_url_frequency(self, bar_type, bar_size):
         url_request_period = "histoday"
@@ -78,11 +84,8 @@ class Price:
         url = 'https://min-api.cryptocompare.com/data/{}?fsym={}&tsym={}&aggregate={}'\
                 .format(url_request_period, base_coin.upper(), traded_coin.upper(), bar_size)
 
-        # Set exchange
-        if exchange:
-            url += '&e={}'.format(exchange)
-
         # Swapping dates to facilitate optional args for the user
+        # Inverting only if they are both not None
         start_datetime, end_datetime = self._historical_invert_dates(
                                             start_datetime, end_datetime)
 
@@ -97,6 +100,20 @@ class Price:
         url = self._historical_set_num_points(
                    url, start_datetime, end_datetime, num_points)
 
+        # Set exchange
+        if exchange:
+            url += '&e={}'.format(exchange)
+
+
+        ### If we want a specific exchange, we get from cryptocompare
+        ### Otherwise we get from the scraped data
+        if exchange == '' and \
+           (bar_type == 'd' or bar_type == 'w' or bar_type=='M'):
+           return self._get_scraped_historical_data(base_coin,
+                                                    traded_coin,
+                                                    start_datetime,
+                                                    end_datetime,
+                                                    num_points)
 
         page = requests.get(url)
         data = page.json()['Data']
@@ -110,6 +127,22 @@ class Price:
         except:
             print ("Error on calling {}, got error {}".format(url, page.json()))
         return df
+
+    def _get_scraped_historical_data(base_coin,
+                                     traded_coin,
+                                     start_datetime,
+                                     end_datetime,
+                                     num_points):
+
+        if start_datetime is None and end_datetime is not None:
+           start_datetime = end_datetime
+
+        working_data = self.dataset[self.dataset["Symbol"] == base_coin]
+        working_data = working_data[(working_data["Date"] >= start_datetime) &
+                                    (working_data["Date"] <= end_datetime)]
+        working_data = working_data[["Close"]]
+
+        return working_data
 
     def current(self, base_coin, traded_coin = "USD", exchange='Bitstamp'):
         url = 'https://min-api.cryptocompare.com/data/price?fsym={}&tsyms={}'\
