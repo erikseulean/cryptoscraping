@@ -15,7 +15,10 @@ class Coins:
         for exch, coins in exchanges.items():
             symbols = []
             for coin in coins:
-                symbols.append(self.dataset[self.dataset["Coin"] == coin]["Symbol"].values[0])
+                try:
+                    symbols.append(self.dataset[self.dataset["Coin"] == coin]["Symbol"].values[0])
+                except:
+                    print('No symbol for coin ', coin)
             exchange_symbols[exch] = symbols
         return exchange_symbols
 
