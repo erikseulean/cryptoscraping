@@ -26,6 +26,7 @@ class Coins:
         # rename coins to symbols
 
     def coin_data(self, coin, field, params = None):
+        print (coin, field)
         if field == "EXCHANGES":
             return self._get_exchanges_coin(coin)
 
