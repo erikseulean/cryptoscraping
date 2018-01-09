@@ -47,9 +47,6 @@ def get_historical_data(top100, ticker, start, end):
         (top100['Date'] <= end)][['Date', 'Volume', 'Close', 'Market-Cap']]
 
 
-
-
-
 # get all from top 100 that are traded at the exchanges passed in as parameter
 def filtered_data(top100, exchange_names):
     top100 = top100[top100['Coin'].isin(exchange_names)]
