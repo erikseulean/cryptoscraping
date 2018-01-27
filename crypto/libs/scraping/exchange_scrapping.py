@@ -32,3 +32,23 @@ def scrap_exchanges():
             data[exch].append(coin.split(":")[0])
 
     json.dump(data, open('crypto/data/dict.json', 'w'))
+
+
+def get_coins_per_exchange(exchange):
+    url = "https://coinmarketcap.com/exchanges/{exchange}/"
+    url = url.format(exchange=exchange)
+
+    page = requests.get(url)
+    contents = page.content
+    
+    soup = BeautifulSoup(contents, 'html.parser')
+
+    table = soup.find("table", {"id": "exchange-markets"})
+    rows = table.find_all('tr')
+    unique_coins = set()
+
+    for i in range(1, len(rows)):
+        coin_pair = rows[i].find_all('td')[2].find_all('a')[0].text
+        unique_coins.add(coin_pair.split('/')[0])
+
+    return list(unique_coins)
