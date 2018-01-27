@@ -4,11 +4,13 @@ import pandas as pd
 
 def get_trends(coin_term, mode='a', header=False):
     try:
+        coin_term = [coin.split(':')[0] for coin in coin_term]
+        
         pytrends = TrendReq(hl='en-US', tz=360)
         pytrends.build_payload(coin_term, cat=0, timeframe='today 3-m', geo='', gprop='')
 
         result = pytrends.interest_over_time()
-        result.insert(loc=0, column='Coin', value='-'.join(coin_term))
+        result.insert(loc=0, column='Coin', value=' '.join(coin_term))
         result.drop('isPartial', axis=1, inplace=True)
         result.reset_index(level=0, inplace=True)
 

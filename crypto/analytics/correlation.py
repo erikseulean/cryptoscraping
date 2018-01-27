@@ -1,10 +1,12 @@
-from analytics import cleaned_dataset, get_historical_data
+from crypto.data.loader import cleaned_dataset
+from crypto.analytics.analytics import get_historical_data
+from datetime import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
 
 def get_trends(coin):
     trends = pd.read_csv(
-        'coin_trends.csv',
+        'crypto/data/coin_trends.csv',
         header=0,
         low_memory=False, 
         encoding='utf-8-sig',
@@ -15,7 +17,7 @@ def get_trends(coin):
 
 def close_prices(coin):
     data = cleaned_dataset()
-    data = get_historical_data(cleaned_dataset(), coin, '2017-09-21', '2017-12-18')
+    data = get_historical_data(cleaned_dataset(), coin, '2017-09-21', '2018-01-09')
     min_value = data['Close'][data['Close'].idxmin()]
     max_value = data['Close'][data['Close'].idxmax()]
     data['Close'] = (data['Close'] - min_value)/(max_value - min_value) * 100
@@ -31,4 +33,3 @@ def plot_correlation(coin):
     plt.title(coin)
     plt.show()
     
-plot_correlation('request-network')

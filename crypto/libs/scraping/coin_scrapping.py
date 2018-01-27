@@ -13,7 +13,7 @@ def scrap_coins():
         coins.append( table_rows[i].find_all('a')[0]['href'].split('/')[2] + ":" + \
                       table_rows[i].find_all('a')[0].text)
 
-    df = pd.DataFrame(coins, columns=['Coins'])
+    df = pd.DataFrame(coins[:350], columns=['Coins'])
     df.to_csv('crypto/data/coins.csv')
     print('loaded all coins into coins.csv')
 
